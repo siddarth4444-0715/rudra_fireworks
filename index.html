@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Rudra Fireworks 🎆</title>
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(120deg, #2e184d 0%, #d44d39 70%, #ffd37a 100%);
+  color: #fff;
+  overflow-x: hidden;
+  -webkit-user-select: none;
+}
+canvas#crackersEffectsCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+.app { max-width:700px; margin:auto; padding:16px; position:relative; z-index:1; }
+h1 { font-size:24px; margin-bottom:8px; }
+h2 { margin-top:1.5em; font-size:20px; border-bottom:1px solid #ffd37a; padding-bottom:6px; }
+.products { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+.card {
+  background: rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.card button {
+  margin-top:8px;
+  padding:10px 16px;
+  font-size:1rem;
+  font-weight:700;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(90deg, #ffd37a, #ff9a76);
+  color:#111;
+  width:100%;
+  -webkit-tap-highlight-color: transparent;
+}
+.card img { width:60px; height:60px; object-fit:contain; border-radius:8px; }
+.aside {
+  background: rgba(255,255,255,0.05);
+  padding:12px;
+  border-radius:12px;
+  margin-top:16px;
+}
+.line {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:6px 0;
+  border-bottom:1px dashed rgba(255,255,255,0.1);
+  padding-bottom:4px;
+}
+.total { font-weight:800; font-size:18px; display:flex; justify-content:space-between; }
+button.clearBtn, button.receiptBtn {
+  margin-top:8px; padding:10px; width:100%;
+  font-weight:700; border:none; border-radius:10px; color:#111; cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+button.clearBtn { background:linear-gradient(90deg, #ff7c7c, #ffb3b3); }
+button.receiptBtn { background:linear-gradient(90deg, #ffd37a, #ff9a76); }
+.removeBtn { background:none; border:none; color:#ff7c7c; font-weight:bold; font-size:1rem; cursor:pointer; margin-left:8px; }
+</style>
+</head>
+<body>
+<canvas id="crackersEffectsCanvas"></canvas>
+
+<div class="app">
+  <h1>Rudra Fireworks 🎆</h1>
+  <p>Tap to add items to your cart. Enjoy the celebration!</p>
+
+  <h2>1. Flower Pots</h2>
+  <div class="products" id="flowerPots"></div>
+
+  <h2>2. Ground Chakkar</h2>
+  <div class="products" id="groundChakkar"></div>
+
+  <h2>3. Bombs</h2>
+  <div class="products" id="bombs"></div>
+
+  <h2>4. Sparkles</h2>
+  <div class="products" id="sparkles"></div>
+
+  <h2>5. Fancy</h2>
+  <div class="products" id="fancy"></div>
+
+  <h2>6. 100 / 1000-Wala</h2>
+  <div class="products" id="hundredWala"></div>
+
+  <h2>7. Shots</h2>
+  <div class="products" id="shots"></div>
+
+  <h2>8. Comet</h2>
+  <div class="products" id="comet"></div>
+
+  <h2>9. Rockets</h2>
+  <div class="products" id="rockets"></div>
+
+  <div class="aside">
+    <h3>Cart Summary</h3>
+    <div id="cartList">Your cart is empty.</div>
+    <div class="line total">
+      <span>Total:</span><span id="totalPrice">₹0</span>
+    </div>
+    <button class="clearBtn" id="clearCart">Clear Cart</button>
+    <button class="receiptBtn" id="generateReceipt">Generate Receipt</button>
+  </div>
+</div>
+
+<script>
+// --- iOS friendly canvas sizing ---
+const canvasFX = document.getElementById('crackersEffectsCanvas');
+const ctxFX = canvasFX.getContext('2d');
+function resizeFX() {
+  canvasFX.width = window.innerWidth * window.devicePixelRatio;
+  canvasFX.height = window.innerHeight * window.devicePixelRatio;
+  ctxFX.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+window.addEventListener('resize', resizeFX);
+resizeFX();
+
+class Particle {
+  constructor(x,y,color,angle,speed){this.x=x;this.y=y;this.color=color;this.angle=angle;this.speed=speed;this.life=80+Math.random()*40;this.age=0;}
+  update(){const rad=this.angle*Math.PI/180;this.x+=Math.cos(rad)*this.speed;this.y+=Math.sin(rad)*this.speed+this.age*0.02;this.age++;this.speed*=0.98;}
+  draw(ctx){ctx.beginPath();ctx.arc(this.x,this.y,2,0,Math.PI*2);ctx.fillStyle=this.color;ctx.globalAlpha=Math.max(1-this.age/this.life,0.15);ctx.fill();ctx.globalAlpha=1;}
+}
+class Firework {
+  constructor(){this.x=Math.random()*canvasFX.width/window.devicePixelRatio;this.y=(window.innerHeight*(0.3+Math.random()*0.3));this.color=`hsl(${Math.random()*360},90%,60%)`;this.particles=[];for(let i=0;i<40;i++)this.particles.push(new Particle(this.x,this.y,this.color,i*(360/40),Math.random()*3+2.5));}
+  update(){this.particles.forEach(p=>p.update());}
+  draw(ctx){this.particles.forEach(p=>p.draw(ctx));}
+  done(){return this.particles.every(p=>p.age>p.life);}
+}
+let fireworks=[];
+function addFirework(){fireworks.push(new Firework());}
+setInterval(addFirework,1000);
+function animateFX(){
+  ctxFX.clearRect(0,0,canvasFX.width,canvasFX.height);
+  fireworks.forEach(fw=>{fw.update();fw.draw(ctxFX);});
+  fireworks=fireworks.filter(fw=>!fw.done());
+  requestAnimationFrame(animateFX);
+}
+animateFX();
+
+// --- Product Data ---
+const ITEMS = {
+  flowerPots:[
+    {id:'fp1',name:'Flowerpot Big (XS)',price:20,icon:'https://i.postimg.cc/XXXX/flowerpot1.png'},
+    {id:'fp2',name:'Flowerpot Ashok (S)',price:25,icon:'https://i.postimg.cc/XXXX/flowerpot2.png'},
+    {id:'fp3',name:'Flowerpot Colour Koti (M)',price:30,icon:'https://i.postimg.cc/XXXX/flowerpot3.png'},
+    {id:'fp4',name:'Flowerpot Super Delux (L)',price:35,icon:'https://i.postimg.cc/XXXX/flowerpot4.png'},
+    {id:'fp5',name:'F.P Super Deluxe (XL)',price:40,icon:'https://i.postimg.cc/XXXX/flowerpot5.png'},
+    {id:'fp6',name:'F.P Colour Koti Deluxe (XXL)',price:45,icon:'https://i.postimg.cc/XXXX/flowerpot6.png'},
+    {id:'fp7',name:'F.P Colour World (Vanitha) (XXXL)',price:50,icon:'https://i.postimg.cc/XXXX/flowerpot7.png'}
+  ],
+  groundChakkar:[
+    {id:'gc1',name:'G.C Special (M)',price:15,icon:'https://i.postimg.cc/XXXX/gc1.png'},
+    {id:'gc2',name:'G.C Deluxe (L)',price:20,icon:'https://i.postimg.cc/XXXX/gc2.png'},
+    {id:'gc3',name:'G.C Super Special (VL)',price:25,icon:'https://i.postimg.cc/XXXX/gc3.png'},
+    {id:'gc4',name:'Spinner Super Deluxe (XXL)',price:30,icon:'https://i.postimg.cc/XXXX/gc4.png'}
+  ],
+  bombs:[{id:'b1',name:'4inch Laxmi (S)',price:45,originalPrice:90,discount:50,icon:'https://i.postimg.cc/fywJKV2c/pngtree-cartoon-cute-little-sun-png-image-13901203.png'}],
+  sparkles:[], fancy:[], hundredWala:[], shots:[], comet:[], rockets:[]
+};
+
+let cart={};
+function renderPartition(partitionId, items){
+  const container=document.getElementById(partitionId);
+  container.innerHTML='';
+  items.forEach(item=>{
+    const qty=cart[item.id]||0;
+    const card=document.createElement('div');
+    card.className='card';
+    let priceHTML='';
+    if(item.discount && item.originalPrice){
+      priceHTML=`<span style="text-decoration:line-through;color:#ff9999;">₹${item.originalPrice}</span>
+                 <span style="color:#ffd37a;font-weight:bold;margin:0 4px;">${item.discount}% off</span>
+                 <span style="font-weight:bold;">₹${item.price}</span>`;
+    } else priceHTML=`₹${item.price}`;
+    card.innerHTML=`<img src="${item.icon}" alt="${item.name}"/><div>${item.name}<br>${priceHTML}</div><button>Add ${qty>0?`(${qty})`:''}</button>`;
+    container.appendChild(card);
+    card.querySelector('button').addEventListener('click',()=>{
+      cart[item.id]=(cart[item.id]||0)+1;
+      renderCart(); renderAllPartitions();
+    });
+  });
+}
+function renderAllPartitions(){for(let key in ITEMS){renderPartition(key,ITEMS[key]);}}
+
+const cartList=document.getElementById('cartList');
+const totalPriceEl=document.getElementById('totalPrice');
+function renderCart(){
+  if(Object.keys(cart).length===0){cartList.innerHTML='Your cart is empty.'; totalPriceEl.textContent='₹0'; return;}
+  cartList.innerHTML='';
+  let total=0;
+  for(const id in cart){
+    const it=[].concat(...Object.values(ITEMS)).find(x=>x.id===id);
+    const qty=cart[id];
+    const line=document.createElement('div');
+    line.className='line';
+    line.innerHTML=`<span>${it.name} × ${qty}</span><span>₹${it.price*qty}<button class="removeBtn" data-id="${id}">×</button></span>`;
+    cartList.appendChild(line);
+    total+=it.price*qty;
+    line.querySelector('.removeBtn').addEventListener('click',()=>{
+      delete cart[id]; renderCart(); renderAllPartitions();
+    });
+  }
+  totalPriceEl.textContent='₹'+total;
+}
+document.getElementById('clearCart').addEventListener('click',()=>{cart={};renderCart();renderAllPartitions();});
+
+// --- iOS-safe receipt copy ---
+document.getElementById('generateReceipt').addEventListener('click',()=>{
+  if(Object.keys(cart).length===0){alert("Cart is empty!"); return;}
+  const phone = prompt("Enter your 10-digit phone number:");
+  if(!phone || !/^\d{10}$/.test(phone)){alert("Invalid phone");return;}
+  let receipt="🎆 Rudra Fireworks Receipt 🎆\n\n";
+  let total=0;
+  for(const id in cart){
+    const it=[].concat(...Object.values(ITEMS)).find(x=>x.id===id);
+    const qty=cart[id];
+    receipt += `${it.name} × ${qty} = ₹${it.price*qty}\n`;
+    total += it.price*qty;
+  }
+  receipt+=`\nTotal: ₹${total}\nPhone: ${phone}`;
+  try {
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(receipt).then(()=>alert("Receipt copied to clipboard!"));
+    } else {
+      // Fallback for Safari
+      const textArea=document.createElement("textarea");
+      textArea.value=receipt;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      textArea.remove();
+      alert("Receipt copied to clipboard!");
+    }
+  } catch(e){
+    alert(receipt);
+  }
+});
+
+renderAllPartitions();
+renderCart();
+</script>
+</body>
+</html>
