@@ -16,61 +16,49 @@ body {
 canvas#crackersEffectsCanvas {
   position: fixed;
   top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  display: block;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
 }
 .app { max-width:700px; margin:auto; padding:16px; position:relative; z-index:1; }
 h1 { font-size:24px; margin-bottom:8px; }
 h2 { margin-top:1.5em; font-size:20px; border-bottom:1px solid #ffd37a; padding-bottom:6px; }
-.products { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+.products { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .card {
   background: rgba(255,255,255,0.05);
   border:1px solid rgba(255,255,255,0.1);
-  border-radius:12px;
-  padding:12px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  border-radius:12px; padding:12px;
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center;
 }
 .card button {
-  margin-top:8px;
-  padding:10px 16px;
-  font-size:1rem;
-  font-weight:700;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(90deg, #ffd37a, #ff9a76);
-  color:#111;
-  width:100%;
-  -webkit-tap-highlight-color: transparent;
+  padding:8px 14px; font-size:1rem; font-weight:700;
+  border:none; border-radius:10px; cursor:pointer;
+  background:linear-gradient(90deg,#ffd37a,#ff9a76); color:#111;
 }
-.card img { width:60px; height:60px; object-fit:contain; border-radius:8px; }
+.card .decBtn,.card .incBtn {
+  background:linear-gradient(90deg,#ffb3b3,#ff7c7c);
+  color:#111; border:none; border-radius:8px; font-weight:bold;
+  padding:6px 10px; font-size:1.1rem;
+}
 .aside {
   background: rgba(255,255,255,0.05);
-  padding:12px;
-  border-radius:12px;
-  margin-top:16px;
+  padding:12px; border-radius:12px; margin-top:16px;
 }
 .line {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:6px 0;
-  border-bottom:1px dashed rgba(255,255,255,0.1);
-  padding-bottom:4px;
+  display:flex; justify-content:space-between; align-items:center;
+  margin:6px 0; border-bottom:1px dashed rgba(255,255,255,0.1); padding-bottom:4px;
 }
 .total { font-weight:800; font-size:18px; display:flex; justify-content:space-between; }
 button.clearBtn, button.receiptBtn {
   margin-top:8px; padding:10px; width:100%;
   font-weight:700; border:none; border-radius:10px; color:#111; cursor:pointer;
-  -webkit-tap-highlight-color: transparent;
 }
-button.clearBtn { background:linear-gradient(90deg, #ff7c7c, #ffb3b3); }
-button.receiptBtn { background:linear-gradient(90deg, #ffd37a, #ff9a76); }
+button.clearBtn { background:linear-gradient(90deg,#ff7c7c,#ffb3b3); }
+button.receiptBtn { background:linear-gradient(90deg,#ffd37a,#ff9a76); }
 .removeBtn { background:none; border:none; color:#ff7c7c; font-weight:bold; font-size:1rem; cursor:pointer; margin-left:8px; }
+#orderStatus {
+  text-align:center; font-weight:bold; color:#4cff85; margin-top:12px; display:none;
+}
 </style>
 </head>
 <body>
@@ -78,181 +66,146 @@ button.receiptBtn { background:linear-gradient(90deg, #ffd37a, #ff9a76); }
 
 <div class="app">
   <h1>Rudra Fireworks 🎆</h1>
-  <p>Tap to add items to your cart. Enjoy the celebration!</p>
+  <p>Tap to add or adjust items in your cart. Enjoy the celebration!</p>
 
-  <h2>1. Flower Pots</h2>
-  <div class="products" id="flowerPots"></div>
-
-  <h2>2. Ground Chakkar</h2>
-  <div class="products" id="groundChakkar"></div>
-
-  <h2>3. Bombs</h2>
-  <div class="products" id="bombs"></div>
-
-  <h2>4. Sparkles</h2>
-  <div class="products" id="sparkles"></div>
-
-  <h2>5. Fancy</h2>
-  <div class="products" id="fancy"></div>
-
-  <h2>6. 100 / 1000-Wala</h2>
-  <div class="products" id="hundredWala"></div>
-
-  <h2>7. Shots</h2>
-  <div class="products" id="shots"></div>
-
-  <h2>8. Comet</h2>
-  <div class="products" id="comet"></div>
-
-  <h2>9. Rockets</h2>
-  <div class="products" id="rockets"></div>
+  <h2>1. Flower Pots</h2><div class="products" id="flowerPots"></div>
+  <h2>2. Ground Chakkar</h2><div class="products" id="groundChakkar"></div>
+  <h2>3. Bombs</h2><div class="products" id="bombs"></div>
+  <h2>4. Sparkles</h2><div class="products" id="sparkles"></div>
+  <h2>5. Fancy</h2><div class="products" id="fancy"></div>
+  <h2>6. Garlands (Wala’s)</h2><div class="products" id="hundredWala"></div>
+  <h2>7. Shots</h2><div class="products" id="shots"></div>
+  <h2>8. Comet</h2><div class="products" id="comet"></div>
+  <h2>9. Rockets</h2><div class="products" id="rockets"></div>
+  <h2>10. Threads</h2><div class="products" id="threads"></div>
+  <h2>11. Red Bijili</h2><div class="products" id="redBijili"></div>
 
   <div class="aside">
     <h3>Cart Summary</h3>
     <div id="cartList">Your cart is empty.</div>
-    <div class="line total">
-      <span>Total:</span><span id="totalPrice">₹0</span>
-    </div>
+    <div class="line total"><span>Total:</span><span id="totalPrice">₹0</span></div>
     <button class="clearBtn" id="clearCart">Clear Cart</button>
     <button class="receiptBtn" id="generateReceipt">Generate Receipt</button>
+    <div id="orderStatus">✅ Order Submitted Successfully!</div>
   </div>
 </div>
 
 <script>
-// --- iOS friendly canvas sizing ---
-const canvasFX = document.getElementById('crackersEffectsCanvas');
-const ctxFX = canvasFX.getContext('2d');
-function resizeFX() {
-  canvasFX.width = window.innerWidth * window.devicePixelRatio;
-  canvasFX.height = window.innerHeight * window.devicePixelRatio;
-  ctxFX.scale(window.devicePixelRatio, window.devicePixelRatio);
-}
-window.addEventListener('resize', resizeFX);
-resizeFX();
+// --- Fireworks animation ---
+const canvasFX=document.getElementById('crackersEffectsCanvas');const ctxFX=canvasFX.getContext('2d');
+function resizeFX(){canvasFX.width=window.innerWidth;canvasFX.height=window.innerHeight;}
+window.addEventListener('resize',resizeFX);resizeFX();
+class Particle{constructor(x,y,color,angle,speed){this.x=x;this.y=y;this.color=color;this.angle=angle;this.speed=speed;this.life=80+Math.random()*40;this.age=0;}
+update(){const r=this.angle*Math.PI/180;this.x+=Math.cos(r)*this.speed;this.y+=Math.sin(r)*this.speed+this.age*0.02;this.age++;this.speed*=0.98;}
+draw(c){c.beginPath();c.arc(this.x,this.y,2,0,Math.PI*2);c.fillStyle=this.color;c.globalAlpha=Math.max(1-this.age/this.life,0.15);c.fill();c.globalAlpha=1;}}
+class Firework{constructor(){this.x=Math.random()*canvasFX.width;this.y=window.innerHeight*(0.3+Math.random()*0.3);this.color=`hsl(${Math.random()*360},90%,60%)`;this.particles=[];
+for(let i=0;i<40;i++)this.particles.push(new Particle(this.x,this.y,this.color,i*(360/40),Math.random()*3+2.5));}
+update(){this.particles.forEach(p=>p.update());}
+draw(c){this.particles.forEach(p=>p.draw(c));}
+done(){return this.particles.every(p=>p.age>p.life);}}
+let fireworks=[];setInterval(()=>fireworks.push(new Firework()),1000);
+function animateFX(){ctxFX.clearRect(0,0,canvasFX.width,canvasFX.height);fireworks.forEach(fw=>{fw.update();fw.draw(ctxFX);});fireworks=fireworks.filter(fw=>!fw.done());requestAnimationFrame(animateFX);}animateFX();
 
-class Particle {
-  constructor(x,y,color,angle,speed){this.x=x;this.y=y;this.color=color;this.angle=angle;this.speed=speed;this.life=80+Math.random()*40;this.age=0;}
-  update(){const rad=this.angle*Math.PI/180;this.x+=Math.cos(rad)*this.speed;this.y+=Math.sin(rad)*this.speed+this.age*0.02;this.age++;this.speed*=0.98;}
-  draw(ctx){ctx.beginPath();ctx.arc(this.x,this.y,2,0,Math.PI*2);ctx.fillStyle=this.color;ctx.globalAlpha=Math.max(1-this.age/this.life,0.15);ctx.fill();ctx.globalAlpha=1;}
-}
-class Firework {
-  constructor(){this.x=Math.random()*canvasFX.width/window.devicePixelRatio;this.y=(window.innerHeight*(0.3+Math.random()*0.3));this.color=`hsl(${Math.random()*360},90%,60%)`;this.particles=[];for(let i=0;i<40;i++)this.particles.push(new Particle(this.x,this.y,this.color,i*(360/40),Math.random()*3+2.5));}
-  update(){this.particles.forEach(p=>p.update());}
-  draw(ctx){this.particles.forEach(p=>p.draw(ctx));}
-  done(){return this.particles.every(p=>p.age>p.life);}
-}
-let fireworks=[];
-function addFirework(){fireworks.push(new Firework());}
-setInterval(addFirework,1000);
-function animateFX(){
-  ctxFX.clearRect(0,0,canvasFX.width,canvasFX.height);
-  fireworks.forEach(fw=>{fw.update();fw.draw(ctxFX);});
-  fireworks=fireworks.filter(fw=>!fw.done());
-  requestAnimationFrame(animateFX);
-}
-animateFX();
-
-// --- Product Data ---
+// --- ITEMS ---
 const ITEMS = {
-  flowerPots:[
-    {id:'fp1',name:'Flowerpot Big (XS)',price:20,icon:'https://i.postimg.cc/XXXX/flowerpot1.png'},
-    {id:'fp2',name:'Flowerpot Ashok (S)',price:25,icon:'https://i.postimg.cc/XXXX/flowerpot2.png'},
-    {id:'fp3',name:'Flowerpot Colour Koti (M)',price:30,icon:'https://i.postimg.cc/XXXX/flowerpot3.png'},
-    {id:'fp4',name:'Flowerpot Super Delux (L)',price:35,icon:'https://i.postimg.cc/XXXX/flowerpot4.png'},
-    {id:'fp5',name:'F.P Super Deluxe (XL)',price:40,icon:'https://i.postimg.cc/XXXX/flowerpot5.png'},
-    {id:'fp6',name:'F.P Colour Koti Deluxe (XXL)',price:45,icon:'https://i.postimg.cc/XXXX/flowerpot6.png'},
-    {id:'fp7',name:'F.P Colour World (Vanitha) (XXXL)',price:50,icon:'https://i.postimg.cc/XXXX/flowerpot7.png'}
-  ],
-  groundChakkar:[
-    {id:'gc1',name:'G.C Special (M)',price:15,icon:'https://i.postimg.cc/XXXX/gc1.png'},
-    {id:'gc2',name:'G.C Deluxe (L)',price:20,icon:'https://i.postimg.cc/XXXX/gc2.png'},
-    {id:'gc3',name:'G.C Super Special (VL)',price:25,icon:'https://i.postimg.cc/XXXX/gc3.png'},
-    {id:'gc4',name:'Spinner Super Deluxe (XXL)',price:30,icon:'https://i.postimg.cc/XXXX/gc4.png'}
-  ],
-  bombs:[{id:'b1',name:'4inch Laxmi (S)',price:45,originalPrice:90,discount:50,icon:'https://i.postimg.cc/fywJKV2c/pngtree-cartoon-cute-little-sun-png-image-13901203.png'}],
-  sparkles:[], fancy:[], hundredWala:[], shots:[], comet:[], rockets:[]
+  bombs:[{id:"b1",name:"4inch Lakshmi",price:90},{id:"b2",name:"Gold Deluxe Lakshmi",price:105},{id:"b3",name:"Two Sound",price:95},{id:"b4",name:"Saddam Bomb",price:450},{id:"b5",name:"Aadhi Toofan",price:720}],
+  flowerPots:[{id:"fp1",name:"F.P Big",price:180},{id:"fp2",name:"F.P Special",price:240},{id:"fp3",name:"F.P Ashoka (RG)",price:315},{id:"fp4",name:"F.P Colour Koti",price:540},{id:"fp5",name:"F.P Super Deluxe",price:900},{id:"fp6",name:"F.P Colour Koti Deluxe (RG)",price:1050},{id:"fp7",name:"F.P Colour World (Vanitha)",price:1550},{id:"fp8",name:"F.P Colour Koti Super Big (Sonny)",price:1850}],
+  groundChakkar:[{id:"gc1",name:"G.C Special",price:240},{id:"gc2",name:"G.C Super Special (VL)",price:330},{id:"gc3",name:"G.C Deluxe RG",price:420},{id:"gc4",name:"Spinner Deluxe (VL)",price:600},{id:"gc5",name:"Spinner Super Deluxe",price:760}],
+  sparkles:[{id:"sp1",name:"15CM Electric",price:95},{id:"sp2",name:"30CM Electric",price:115},{id:"sp3",name:"30CM Colour",price:125}],
+  fancy:[{id:"f1",name:"Peacock Small",price:540},{id:"f2",name:"Peacock Big",price:1350},{id:"f3",name:"Whistling Peacock",price:1500},{id:"f4",name:"Lotus Wheel",price:600},{id:"f5",name:"KitKat",price:75},{id:"f6",name:"Whistling Recycle (VL)",price:600},{id:"f7",name:"Ring Ring (VL)",price:900},{id:"f8",name:"Fly Machine",price:1100},{id:"f9",name:"Nano Pot",price:600},{id:"f10",name:"Twins",price:740},{id:"f11",name:"Butterfly",price:450},{id:"f12",name:"Bumble (Helicopter)",price:580},{id:"f13",name:"Mini Pot",price:750},{id:"f14",name:"Oggy",price:900}],
+  hundredWala:[{id:"w1",name:"24 Chorsa",price:150},{id:"w2",name:"1000 Wala",price:600},{id:"w3",name:"2000 Wala",price:1200},{id:"w4",name:"5000 Wala",price:3000}],
+  rockets:[{id:"r1",name:"Baby Rocket",price:150},{id:"r2",name:"Bomb Rocket",price:420},{id:"r3",name:"Musical Rocket",price:750},{id:"r4",name:"What a Blast Big Rocket",price:450}],
+  shots:[{id:"s1",name:"7 Shots",price:450},{id:"s2",name:"12 Shots",price:540},{id:"s3",name:"15 Shots",price:650},{id:"s4",name:"30 Shots",price:1300},{id:"s5",name:"60 Shots",price:2700}],
+  comet:[{id:"c1",name:'2" Comet',price:750},{id:"c2",name:'3" Comet',price:1050},{id:"c3",name:'6" Comet (Vanitha)',price:3200},{id:"c4",name:'6" Comet',price:2800}],
+  threads:[{id:"t1",name:"Twinkling Star Small",price:75},{id:"t2",name:"Twinkling Star Big",price:195}],
+  redBijili:[{id:"rb1",name:"Red Bijili (Regular)",price:60},{id:"rb2",name:"Red Bijili (Standard - 100 Piece)",price:140}]
 };
 
-let cart={};
-function renderPartition(partitionId, items){
-  const container=document.getElementById(partitionId);
+// --- Cart Logic ---
+let cart = {};
+function renderPartition(id, items){
+  const container=document.getElementById(id);
   container.innerHTML='';
   items.forEach(item=>{
     const qty=cart[item.id]||0;
-    const card=document.createElement('div');
-    card.className='card';
-    let priceHTML='';
-    if(item.discount && item.originalPrice){
-      priceHTML=`<span style="text-decoration:line-through;color:#ff9999;">₹${item.originalPrice}</span>
-                 <span style="color:#ffd37a;font-weight:bold;margin:0 4px;">${item.discount}% off</span>
-                 <span style="font-weight:bold;">₹${item.price}</span>`;
-    } else priceHTML=`₹${item.price}`;
-    card.innerHTML=`<img src="${item.icon}" alt="${item.name}"/><div>${item.name}<br>${priceHTML}</div><button>Add ${qty>0?`(${qty})`:''}</button>`;
-    container.appendChild(card);
-    card.querySelector('button').addEventListener('click',()=>{
-      cart[item.id]=(cart[item.id]||0)+1;
-      renderCart(); renderAllPartitions();
-    });
+    const increased=(item.price*1.2).toFixed(0);
+    const discount=Math.round(((increased-item.price)/increased)*100);
+    const div=document.createElement('div');
+    div.className='card';
+    div.innerHTML=`
+      <div>${item.name}</div>
+      <div style="margin-top:4px;">
+        <span style="color:#ff9999;text-decoration:line-through;">₹${increased}</span>
+        <span style="font-weight:bold;">₹${item.price}</span>
+        <span style="color:#FFD580;font-size:0.9rem;font-weight:bold;">(${discount}% OFF)</span>
+      </div>
+      <div style="margin-top:8px;">
+        ${
+          qty===0
+          ? `<button class="addBtn">Add</button>`
+          : `<div style="display:flex;gap:8px;align-items:center;justify-content:center;">
+               <button class="decBtn">−</button>
+               <span style="min-width:20px;text-align:center;font-weight:bold;">${qty}</span>
+               <button class="incBtn">+</button>
+             </div>`
+        }
+      </div>
+    `;
+    const addBtn=div.querySelector('.addBtn');
+    const incBtn=div.querySelector('.incBtn');
+    const decBtn=div.querySelector('.decBtn');
+    if(addBtn) addBtn.addEventListener('click',()=>{cart[item.id]=(cart[item.id]||0)+1;renderCart();renderAllPartitions();});
+    if(incBtn) incBtn.addEventListener('click',()=>{cart[item.id]++;renderCart();renderAllPartitions();});
+    if(decBtn) decBtn.addEventListener('click',()=>{cart[item.id]--;if(cart[item.id]<=0) delete cart[item.id];renderCart();renderAllPartitions();});
+    container.appendChild(div);
   });
 }
-function renderAllPartitions(){for(let key in ITEMS){renderPartition(key,ITEMS[key]);}}
+function renderAllPartitions(){for(let k in ITEMS){renderPartition(k,ITEMS[k]);}}
 
 const cartList=document.getElementById('cartList');
 const totalPriceEl=document.getElementById('totalPrice');
 function renderCart(){
-  if(Object.keys(cart).length===0){cartList.innerHTML='Your cart is empty.'; totalPriceEl.textContent='₹0'; return;}
-  cartList.innerHTML='';
-  let total=0;
+  if(Object.keys(cart).length===0){cartList.innerHTML='Your cart is empty.';totalPriceEl.textContent='₹0';return;}
+  cartList.innerHTML='';let total=0;
   for(const id in cart){
     const it=[].concat(...Object.values(ITEMS)).find(x=>x.id===id);
     const qty=cart[id];
     const line=document.createElement('div');
     line.className='line';
     line.innerHTML=`<span>${it.name} × ${qty}</span><span>₹${it.price*qty}<button class="removeBtn" data-id="${id}">×</button></span>`;
+    line.querySelector('.removeBtn').addEventListener('click',()=>{delete cart[id];renderCart();renderAllPartitions();});
     cartList.appendChild(line);
     total+=it.price*qty;
-    line.querySelector('.removeBtn').addEventListener('click',()=>{
-      delete cart[id]; renderCart(); renderAllPartitions();
-    });
   }
   totalPriceEl.textContent='₹'+total;
 }
 document.getElementById('clearCart').addEventListener('click',()=>{cart={};renderCart();renderAllPartitions();});
 
-// --- iOS-safe receipt copy ---
+// --- Order Submit ---
 document.getElementById('generateReceipt').addEventListener('click',()=>{
-  if(Object.keys(cart).length===0){alert("Cart is empty!"); return;}
-  const phone = prompt("Enter your 10-digit phone number:");
-  if(!phone || !/^\d{10}$/.test(phone)){alert("Invalid phone");return;}
-  let receipt="🎆 Rudra Fireworks Receipt 🎆\n\n";
-  let total=0;
+  if(Object.keys(cart).length===0){alert("Cart is empty!");return;}
+  const name=prompt("Enter your Name:");
+  const phone=prompt("Enter your 10-digit Phone Number:");
+  if(!name||!phone||!/^\d{10}$/.test(phone)){alert("Please enter valid name and 10-digit phone number.");return;}
+  let orderDetails="",total=0;
   for(const id in cart){
     const it=[].concat(...Object.values(ITEMS)).find(x=>x.id===id);
     const qty=cart[id];
-    receipt += `${it.name} × ${qty} = ₹${it.price*qty}\n`;
-    total += it.price*qty;
+    orderDetails+=`${it.name} × ${qty} = ₹${it.price*qty}\n`;
+    total+=it.price*qty;
   }
-  receipt+=`\nTotal: ₹${total}\nPhone: ${phone}`;
-  try {
-    if(navigator.clipboard && window.isSecureContext){
-      navigator.clipboard.writeText(receipt).then(()=>alert("Receipt copied to clipboard!"));
-    } else {
-      // Fallback for Safari
-      const textArea=document.createElement("textarea");
-      textArea.value=receipt;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      textArea.remove();
-      alert("Receipt copied to clipboard!");
-    }
-  } catch(e){
-    alert(receipt);
-  }
+  const formURL="https://docs.google.com/forms/d/e/1FAIpQLScKUvjXlNqn-Vb7EITm3CODLCerd7Eg2mXrSUjPiamrmLqE0Q/formResponse";
+  const formData=new FormData();
+  formData.append("entry.649638385",name);
+  formData.append("entry.2029944530",phone);
+  formData.append("entry.232802345",orderDetails);
+  formData.append("entry.1097326600","₹"+total);
+  fetch(formURL,{method:"POST",body:formData,mode:"no-cors"}).then(()=>{
+    document.getElementById("orderStatus").style.display="block";
+    cart={};renderCart();renderAllPartitions();
+  }).catch(()=>alert("Network error — please try again!"));
 });
-
-renderAllPartitions();
-renderCart();
+renderAllPartitions();renderCart();
 </script>
 </body>
 </html>
