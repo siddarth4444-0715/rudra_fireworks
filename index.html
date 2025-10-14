@@ -108,17 +108,87 @@ function animateFX(){ctxFX.clearRect(0,0,canvasFX.width,canvasFX.height);firewor
 
 // --- ITEMS ---
 const ITEMS = {
-  bombs:[{id:"b1",name:"4inch Lakshmi",price:90},{id:"b2",name:"Gold Deluxe Lakshmi",price:105},{id:"b3",name:"Two Sound",price:95},{id:"b4",name:"Saddam Bomb",price:450},{id:"b5",name:"Aadhi Toofan",price:720}],
-  flowerPots:[{id:"fp1",name:"F.P Big",price:180},{id:"fp2",name:"F.P Special",price:240},{id:"fp3",name:"F.P Ashoka (RG)",price:315},{id:"fp4",name:"F.P Colour Koti",price:540},{id:"fp5",name:"F.P Super Deluxe",price:900},{id:"fp6",name:"F.P Colour Koti Deluxe (RG)",price:1050},{id:"fp7",name:"F.P Colour World (Vanitha)",price:1550},{id:"fp8",name:"F.P Colour Koti Super Big (Sonny)",price:1850}],
-  groundChakkar:[{id:"gc1",name:"G.C Special",price:240},{id:"gc2",name:"G.C Super Special (VL)",price:330},{id:"gc3",name:"G.C Deluxe RG",price:420},{id:"gc4",name:"Spinner Deluxe (VL)",price:600},{id:"gc5",name:"Spinner Super Deluxe",price:760}],
-  sparkles:[{id:"sp1",name:"15CM Electric",price:95},{id:"sp2",name:"30CM Electric",price:115},{id:"sp3",name:"30CM Colour",price:125}],
-  fancy:[{id:"f1",name:"Peacock Small",price:540},{id:"f2",name:"Peacock Big",price:1350},{id:"f3",name:"Whistling Peacock",price:1500},{id:"f4",name:"Lotus Wheel",price:600},{id:"f5",name:"KitKat",price:75},{id:"f6",name:"Whistling Recycle (VL)",price:600},{id:"f7",name:"Ring Ring (VL)",price:900},{id:"f8",name:"Fly Machine",price:1100},{id:"f9",name:"Nano Pot",price:600},{id:"f10",name:"Twins",price:740},{id:"f11",name:"Butterfly",price:450},{id:"f12",name:"Bumble (Helicopter)",price:580},{id:"f13",name:"Mini Pot",price:750},{id:"f14",name:"Oggy",price:900}],
-  hundredWala:[{id:"w1",name:"24 Chorsa",price:150},{id:"w2",name:"1000 Wala",price:600},{id:"w3",name:"2000 Wala",price:1200},{id:"w4",name:"5000 Wala",price:3000}],
-  rockets:[{id:"r1",name:"Baby Rocket",price:150},{id:"r2",name:"Bomb Rocket",price:420},{id:"r3",name:"Musical Rocket",price:750},{id:"r4",name:"What a Blast Big Rocket",price:450}],
-  shots:[{id:"s1",name:"7 Shots",price:450},{id:"s2",name:"12 Shots",price:540},{id:"s3",name:"15 Shots",price:650},{id:"s4",name:"30 Shots",price:1300},{id:"s5",name:"60 Shots",price:2700}],
-  comet:[{id:"c1",name:'2" Comet',price:750},{id:"c2",name:'3" Comet',price:1050},{id:"c3",name:'6" Comet (Vanitha)',price:3200},{id:"c4",name:'6" Comet',price:2800}],
-  threads:[{id:"t1",name:"Twinkling Star Small",price:75},{id:"t2",name:"Twinkling Star Big",price:195}],
-  redBijili:[{id:"rb1",name:"Red Bijili (Regular)",price:60},{id:"rb2",name:"Red Bijili (Standard - 100 Piece)",price:140}]
+  bombs: [
+    { id: "b1", name: "4inch Lakshmi", price: 90 },
+    { id: "b2", name: "Gold Deluxe Lakshmi", price: 105 },
+    { id: "b3", name: "Two Sound", price: 95 },
+    { id: "b4", name: "Saddam Bomb", price: 450 },
+    { id: "b5", name: "Aadhi Toofan", price: 720 }
+  ],
+  flowerPots: [
+    { id: "fp1", name: "F.P Big", price: 180 },
+    { id: "fp2", name: "F.P Special", price: 240 },
+    { id: "fp3", name: "F.P Ashoka (RG)", price: 315 },
+    { id: "fp4", name: "F.P Colour Koti", price: 540 },
+    { id: "fp5", name: "F.P Super Deluxe", price: 900 },
+    { id: "fp6", name: "F.P Colour Koti Deluxe (RG)", price: 1050 },
+    { id: "fp7", name: "F.P Colour World (Vanitha)", price: 1550 },
+    { id: "fp8", name: "F.P Colour Koti Super Big (Sonny)", price: 1850 }
+  ],
+  groundChakkar: [
+    { id: "gc1", name: "G.C Special", price: 240 },
+    { id: "gc2", name: "G.C Super Special (VL)", price: 330 },
+    { id: "gc3", name: "G.C Deluxe RG", price: 420 },
+    { id: "gc4", name: "Spinner Deluxe (VL)", price: 600 },
+    { id: "gc5", name: "Spinner Super Deluxe", price: 760 }
+  ],
+  sparkles: [
+    { id: "sp1", name: "15CM Electric", price: 110 },
+    { id: "sp2", name: "30CM Electric", price: 125 },
+    { id: "sp3", name: "30CM Colour", price: 130 }
+  ],
+  fancy: [
+    { id: "f1", name: "Peacock Small", price: 540 },
+    { id: "f2", name: "Peacock Big", price: 1350 },
+    { id: "f3", name: "Whistling Peacock", price: 1500 },
+    { id: "f4", name: "Lotus Wheel", price: 600 },
+    { id: "f5", name: "KitKat", price: 75 },
+    { id: "f6", name: "Whistiling Recycle (VL)", price: 600 },
+    { id: "f7", name: "Ring Ring (VL)", price: 900 },
+    { id: "f8", name: "Fly Machine", price: 1100 },
+    { id: "f9", name: "Nano Pot", price: 600 },
+    { id: "f10", name: "Twins", price: 740 },
+    { id: "f11", name: "Butterfly", price: 450 },
+    { id: "f12", name: "Bumble (Helicopter)", price: 580 },
+    { id: "f13", name: "Mini Pot", price: 750 },
+    { id: "f14", name: "Oggy", price: 900 }
+  ],
+  hundredWala: [
+    { id: "w1", name: "24 Chorsa", price: 150 },
+    { id: "w2", name: "1000 Wala", price: 600 },
+    { id: "w3", name: "2000 Wala", price: 1200 },
+    { id: "w4", name: "5000 Wala", price: 3000 },
+    { id: "w5", name: "10000 Wala", price: 6000 }
+  ],
+  rockets: [
+    { id: "r1", name: "Baby Rocket", price: 150 },
+    { id: "r2", name: "Bomb Rocket", price: 420 },
+    { id: "r3", name: "Musical Rocket", price: 750 },
+    { id: "r4", name: "What a Blast Big Rocket", price: 1150 }
+  ],
+  shots: [
+    { id: "s1", name: "7 Shots", price: 450 },
+    { id: "s2", name: "12 Shots", price: 540 },
+    { id: "s3", name: "15 Shots", price: 650 },
+    { id: "s4", name: "30 Shots", price: 1350 },
+    { id: "s5", name: "60 Shots", price: 2700 },
+    { id: "s6", name: "120 Shots", price: 4950 },
+    { id: "s7", name: "240 Shots", price: 8400 }
+  ],
+  comet: [
+    { id: "c1", name: '3" Commet', price: 750 },
+    { id: "c2", name: '4" Commet', price: 1050 },
+    { id: "c3", name: '6" Commet (Vanitha)', price: 3200 },
+    { id: "c4", name: '6" Commet', price: 2800 }
+  ],
+  threads: [
+    { id: "t1", name: "Twinkling Star Small", price: 75 },
+    { id: "t2", name: "Twinkling Star Big", price: 195 }
+  ],
+  redBijili: [
+    { id: "rb1", name: "Red Bijili (Regular)", price: 60 },
+    { id: "rb2", name: "Red Bijili (Standard - 100 Piece)", price: 140 }
+  ]
 };
 
 // --- Cart Logic ---
