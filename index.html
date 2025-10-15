@@ -115,6 +115,8 @@ let fireworks=[];setInterval(()=>fireworks.push(new Firework()),1000);
 function animateFX(){ctxFX.clearRect(0,0,canvasFX.width,canvasFX.height);fireworks.forEach(fw=>{fw.update();fw.draw(ctxFX);});fireworks=fireworks.filter(fw=>!fw.done());requestAnimationFrame(animateFX);}animateFX();
 
 // --- ITEMS ---
+const defaultImg = "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/4-Laksmi.jpeg";
+
 const ITEMS = {
   bombs: [
     { 
@@ -123,84 +125,84 @@ const ITEMS = {
       price: 90,
       img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/4-Laksmi.jpeg"
     },
-    { id: "b2", name: "Gold Deluxe Lakshmi", price: 105 },
-    { id: "b3", name: "Two Sound", price: 95 },
-    { id: "b4", name: "Saddam Bomb", price: 450 },
-    { id: "b5", name: "Aadhi Toofan", price: 720 }
+    { id: "b2", name: "Gold Deluxe Lakshmi", price: 105, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/6cb931cc-33d5-4828-8ecc-4134308348fa.jpg"},
+    { id: "b3", name: "Two Sound", price: 95, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/425995d3-45ed-42a3-a6b3-03f4ff23154d.jpg" },
+    { id: "b4", name: "Saddam Bomb", price: 450, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/279a1523-5b2f-48cd-8144-479cd49c4d71.jpg" },
+    { id: "b5", name: "Aadhi Toofan", price: 720, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/10368ecf-36eb-4bf4-83e7-022c991e5196.jpg" }
   ],
   flowerPots: [
-    { id: "fp1", name: "F.P Big", price: 180, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/dc9006a0-1935-44f2-b995-5a226fc3c266.jpg" },
+    { id: "fp1", name: "F.P Big", price: 180, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/77be39fe-d733-4cdb-abab-8b14c2de4e48.jpg" },
     { id: "fp2", name: "F.P Special", price: 240, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/8c210378-3be4-49b8-91cd-0f4ee450d4b8.jpg" },
     { id: "fp3", name: "F.P Ashoka (RG)", price: 315, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/dc9006a0-1935-44f2-b995-5a226fc3c266.jpg" },
     { id: "fp4", name: "F.P Colour Koti", price: 540, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/ed7a267a-9b9c-4111-b7da-e9564a94decc.jpg" },
     { id: "fp5", name: "F.P Super Deluxe", price: 900, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/10df0379-a176-44e8-9a7f-7da144443da6.jpg" },
     { id: "fp6", name: "F.P Colour Koti Deluxe (RG)", price: 1050, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/c9f65d92-f9ee-4fa0-8926-f9bf701e6f49.jpg" },
-    { id: "fp7", name: "F.P Colour World (Vanitha)", price: 1550, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/07d1e786-b143-444f-b584-91c5f65565cf.jpg" },
+    { id: "fp7", name: "F.P Colour World (Vanitha)", price: 1550, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/1.jpg" },
     { id: "fp8", name: "F.P Colour Koti Super Big (Sonny)", price: 1850, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/466a7769-51e1-4deb-82a5-39e1ffccc40f.jpg" }
   ],
   groundChakkar: [
-    { id: "gc1", name: "G.C Special", price: 240 },
-    { id: "gc2", name: "G.C Super Special (VL)", price: 330 },
-    { id: "gc3", name: "G.C Deluxe RG", price: 420 },
+    { id: "gc1", name: "G.C Special", price: 240, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/75eda49c-359e-45f0-8b44-adb61cca62c6.jpg" },
+    { id: "gc2", name: "G.C Super Special (VL)", price: 330, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/3f7d4ec2-a0ab-4faf-acbc-2459aa8644af.jpg" },
+    { id: "gc3", name: "G.C Deluxe RG", price: 420, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/8f25c894-8196-4754-8562-5a3c31068e1f.jpg" },
     { id: "gc4", name: "Spinner Deluxe (VL)", price: 600, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/291d811c-19ce-492a-ab18-f14541b56149.jpg" },
-    { id: "gc5", name: "Spinner Super Deluxe", price: 760 }
+    { id: "gc5", name: "Spinner Super Deluxe", price: 760, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/77cb5e02-bccc-4db3-b414-062a561d8e68.jpg" }
   ],
   sparkles: [
-    { id: "sp1", name: "15CM Electric", price: 110 },
-    { id: "sp2", name: "30CM Electric", price: 125 },
-    { id: "sp3", name: "30CM Colour", price: 130 }
+    { id: "sp1", name: "15CM Electric", price: 110, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/75af3c0f-16a2-4615-92a2-8f254922e278.jpg" },
+    { id: "sp2", name: "30CM Electric", price: 125, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/7ea6364a-2b4e-4cd4-aecc-2689328c2faf.jpg" },
+    { id: "sp3", name: "30CM Colour", price: 130, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/4c6b0e2a-fcda-40da-85d9-079e03c1a079.jpg" }
   ],
   fancy: [
-    { id: "f1", name: "Peacock Small", price: 540 },
-    { id: "f2", name: "Peacock Big", price: 1350 },
-    { id: "f3", name: "Whistling Peacock", price: 1500 },
-    { id: "f4", name: "Lotus Wheel", price: 600 },
+    { id: "f1", name: "Peacock Small", price: 540, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/a60c2126-89ed-485d-b698-e88c609bb25e.jpg" },
+    { id: "f2", name: "Peacock Big", price: 1350, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/9386dd3a-3687-47a2-b982-a799f3889fb7.jpg" },
+    { id: "f3", name: "Whistling Peacock", price: 1500, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/20a1c647-4522-47e8-8c6c-d4f0ce02fb7b.jpg"},
+    { id: "f4", name: "Lotus Wheel", price: 600, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/dec92dbd-5d43-4b10-9f84-dba3bfd01a22.jpg" },
     { id: "f5", name: "KitKat", price: 75, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/09ccf42f-4050-4476-befa-4b5c3d28f113.jpg" },
-    { id: "f6", name: "Whistiling Recycle (VL)", price: 600 },
+    { id: "f6", name: "Whistiling Recycle (VL)", price: 600, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/6a45880c-28fa-488e-862f-51024525b466.jpg" },
     { id: "f7", name: "Ring Ring (VL)", price: 900, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/0be15da9-2179-4893-a034-4355781a3b34.jpg" },
-    { id: "f8", name: "Fly Machine", price: 1100 },
-    { id: "f9", name: "Nano Pot", price: 600 },
-    { id: "f10", name: "Twins", price: 740 },
+    { id: "f8", name: "Fly Machine", price: 1100, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/b1008ffd-6646-44ec-a312-e30cd61a3773.jpg" },
+    { id: "f9", name: "Nano Pot", price: 600, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/7be75c8c-b827-4b8b-a9e5-6701da62a281.jpg" },
+    { id: "f10", name: "Twins", price: 740, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/df2914c6-fc04-4036-98e7-373d00c499c2.jpg" },
     { id: "f11", name: "Butterfly", price: 450, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/79b76025-54da-4a02-8363-0614c65f8d96.jpg" },
-    { id: "f12", name: "Bumble (Helicopter)", price: 580 },
-    { id: "f13", name: "Mini Pot", price: 750 },
+    { id: "f12", name: "Bumble (Helicopter)", price: 580, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/46c53f01-48d5-4b9f-b162-40e92055a6e4.jpg"},
+    { id: "f13", name: "Mini Pot", price: 750, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/fd676e64-20c4-49ec-9591-3382af8cacb9.jpg" },
     { id: "f14", name: "Oggy", price: 900, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/45adadf5-f417-470c-9bda-3ced44bffca7.jpg" }
   ],
   hundredWala: [
-    { id: "w1", name: "24 Chorsa", price: 150 },
-    { id: "w2", name: "1000 Wala", price: 600  },
+    { id: "w1", name: "24 Chorsa", price: 150, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/b279aab1-3a39-4e7e-b2d3-45161140baa9.jpg" },
+    { id: "w2", name: "1000 Wala", price: 600, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/935b8226-a434-4bfc-95c9-4c444d0b90c9.jpg"},
     { id: "w3", name: "2000 Wala", price: 1200, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/558199d2-3644-4ffa-aba2-d5a566d1e4b3.jpg" },
-    { id: "w4", name: "5000 Wala", price: 3000 },
-    { id: "w5", name: "10000 Wala", price: 6000 }
+    { id: "w4", name: "5000 Wala", price: 3000, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/fe35fbc9-7018-4a0d-8008-f0acffb21324.jpg" },
+    { id: "w5", name: "10000 Wala", price: 6000 , img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/5335c5f9-7ed8-4dae-a4eb-8a8b93ef9193.jpg"}
   ],
   rockets: [
-    { id: "r1", name: "Baby Rocket", price: 150 },
-    { id: "r2", name: "Bomb Rocket", price: 420 },
-    { id: "r3", name: "Musical Rocket", price: 750 },
-    { id: "r4", name: "What a Blast Big Rocket", price: 1150 }
+    { id: "r1", name: "Baby Rocket", price: 150, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/81e6e3c1-95fd-4810-bd64-c79bf882a84a.jpg" },
+    { id: "r2", name: "Bomb Rocket", price: 420, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/38a2cf0d-5d9c-4f5f-9477-5890008813ee.jpg" },
+    { id: "r3", name: "Musical Rocket", price: 750, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/f424da58-1da8-4479-955e-c3082b7abd5d.jpg" },
+    { id: "r4", name: "What a Blast Big Rocket", price: 1150, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/f92eb6ec-aa79-4c5e-bb5a-cbef67394f55.jpg" }
   ],
   shots: [
-    { id: "s1", name: "7 Shots", price: 450 },
-    { id: "s2", name: "12 Shots", price: 540 },
-    { id: "s3", name: "15 Shots", price: 650 },
-    { id: "s4", name: "30 Shots", price: 1350 },
-    { id: "s5", name: "60 Shots", price: 2700 },
-    { id: "s6", name: "120 Shots", price: 4950 },
-    { id: "s7", name: "240 Shots", price: 8400 }
+    { id: "s1", name: "7 Shots", price: 450, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/dd1c35fe-efa4-45de-be37-29c54dbe5da2.jpg" },
+    { id: "s2", name: "12 Shots", price: 540, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/0fa30efc-a84c-4a6e-88c5-355110478984.jpg" },
+    { id: "s3", name: "15 Shots", price: 650, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/3f9a56aa-ef8c-4405-9571-2ffa3621d4fd.jpg"},
+    { id: "s4", name: "30 Shots", price: 1350, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/4212f8e8-42ff-4b9f-87f6-95caf50485ec.jpg" },
+    { id: "s5", name: "60 Shots", price: 2700, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/df900778-0222-4971-a650-083a9bd85d07.jpg" },
+    { id: "s6", name: "120 Shots", price: 4950 , img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/b276d306-925a-4b65-8506-a1cfa9e4c3da.jpg" },
+    { id: "s7", name: "240 Shots", price: 8400, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/3735a3a7-dfab-432b-ad01-a0d77efa304a.jpg" }
   ],
   comet: [
-    { id: "c1", name: '3" Commet', price: 750 },
+    { id: "c1", name: '3" Commet', price: 750, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/dcb8f30e-7261-4d6b-8fe8-9e50f9140f8e.jpg" },
     { id: "c2", name: '4" Commet', price: 1050, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/8900e7cd-d86b-4736-b155-71018b192567.jpg" },
     { id: "c3", name: '6" Commet (Vanitha)', price: 3200, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/74f7224f-816e-4e2f-b6be-c1630e8a7d03.jpg" },
-    { id: "c4", name: '6" Commet', price: 2800 }
+    { id: "c4", name: '6" Commet', price: 2800, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/01fa1d60-0b84-4cef-80e6-d9e007ce770c.jpg" }
   ],
   threads: [
     { id: "t1", name: "Twinkling Star Small", price: 75, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/86b8b22b-4bf3-4450-8816-0e0166d0308a.jpg" },
     { id: "t2", name: "Twinkling Star Big", price: 195, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/242529cf-a75c-4930-baae-c719d41ced4f.jpg" }
   ],
   redBijili: [
-    { id: "rb1", name: "Red Bijili (Regular)", price: 60 },
-    { id: "rb2", name: "Red Bijili (Standard - 100 Piece)", price: 140 }
+    { id: "rb1", name: "Red Bijili (Regular)", price: 60, img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/06ec8a26-881a-4465-8cda-6ecd617a00dc.jpg" },
+    { id: "rb2", name: "Red Bijili (Standard - 100 Piece)", price: 140, img:"https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/c57eb8fe-6ed9-4ef7-ace2-b344aff9294d.jpg" }
   ]
 };
 
