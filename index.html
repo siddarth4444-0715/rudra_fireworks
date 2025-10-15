@@ -30,6 +30,14 @@ h2 { margin-top:1.5em; font-size:20px; border-bottom:1px solid #ffd37a; padding-
   display:flex; flex-direction:column; align-items:center;
   text-align:center;
 }
+.card img {
+  width: 100%;
+  aspect-ratio: 1.2/1;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 8px;
+  background: #222;
+}
 .card button {
   padding:8px 14px; font-size:1rem; font-weight:700;
   border:none; border-radius:10px; cursor:pointer;
@@ -109,7 +117,12 @@ function animateFX(){ctxFX.clearRect(0,0,canvasFX.width,canvasFX.height);firewor
 // --- ITEMS ---
 const ITEMS = {
   bombs: [
-    { id: "b1", name: "4inch Lakshmi", price: 90 },
+    { 
+      id: "b1", 
+      name: "4inch Lakshmi", 
+      price: 90,
+      img: "https://raw.githubusercontent.com/siddarth4444-0715/rudra_fireworks/main/4-Laksmi.jpeg"
+    },
     { id: "b2", name: "Gold Deluxe Lakshmi", price: 105 },
     { id: "b3", name: "Two Sound", price: 95 },
     { id: "b4", name: "Saddam Bomb", price: 450 },
@@ -203,6 +216,7 @@ function renderPartition(id, items){
     const div=document.createElement('div');
     div.className='card';
     div.innerHTML=`
+      ${item.img ? `<img src="${item.img}" alt="${item.name}" loading="lazy">` : ''}
       <div>${item.name}</div>
       <div style="margin-top:4px;">
         <span style="color:#ff9999;text-decoration:line-through;">₹${increased}</span>
@@ -279,4 +293,3 @@ renderAllPartitions();renderCart();
 </script>
 </body>
 </html>
-
